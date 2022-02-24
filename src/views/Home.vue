@@ -1,10 +1,10 @@
 <template>
-  <div class="mainDiv">
+  <div class="main">
     <a-button type="primary" class="btn-Center" @click="start('/map')"
       >多屏对比</a-button
     >
-    <a-button type="primary" class="btn-Center" @click="start"
-      >路由跳转</a-button
+    <a-button type="primary" class="btn-Center" @click="start('/tiandi')"
+      >天地图</a-button
     >
   </div>
 </template>
@@ -29,6 +29,23 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="less">
+.main {
+  text-align: center; /*让div内部文字居中*/
+  background-color: #fff;
+  border-radius: 20px;
+  width: 300px;
+  height: 50px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  .btn-Center {
+    margin-left: 15px;
+  }
+}
+
 .mainDiv {
   height: 100%;
   width: 100%;

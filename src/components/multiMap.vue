@@ -27,7 +27,6 @@ export default {
         ],
         view: view,
       });
-      console.log(map);
       let map2 = new Map({
         target: "mapContainer2",
         layers: [
@@ -37,7 +36,6 @@ export default {
         ],
         view: view,
       });
-      console.log(map2);
       allMaps = [map, map2];
     });
 
@@ -62,7 +60,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 #mapContainer {
   width: 50%;
   height: 100%;
