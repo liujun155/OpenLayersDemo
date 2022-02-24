@@ -1,17 +1,21 @@
 <template>
   <div class="main">
     <a-button type="primary" class="btn-Center" @click="start('/map')"
-      >多屏对比</a-button
-    >
+      >多屏对比
+    </a-button>
     <a-button type="primary" class="btn-Center" @click="start('/tiandi')"
-      >天地图</a-button
-    >
+      >天地图
+    </a-button>
+    <a-button type="primary" class="btn-Center" @click="start('/wmsmap')"
+      >WMS服务
+    </a-button>
   </div>
 </template>
 <script lang="ts">
 // 定义一个组件
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
+
 export default defineComponent({
   name: "Start",
   props: {},
@@ -33,7 +37,7 @@ export default defineComponent({
   text-align: center; /*让div内部文字居中*/
   background-color: #fff;
   border-radius: 20px;
-  width: 300px;
+  width: 100%;
   height: 50px;
   margin: auto;
   position: absolute;
@@ -41,6 +45,7 @@ export default defineComponent({
   left: 0;
   right: 0;
   bottom: 0;
+
   .btn-Center {
     margin-left: 15px;
   }
@@ -53,6 +58,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+
   .btn-Center {
     margin-left: 10px;
   }
