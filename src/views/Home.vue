@@ -7,7 +7,7 @@
       >天地图
     </a-button>
     <a-button type="primary" class="btn-Center" @click="start('/wmsmap')"
-      >WMS服务
+      >WFS属性查询
     </a-button>
   </div>
 </template>

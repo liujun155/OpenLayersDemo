@@ -8,17 +8,19 @@ import "ol/ol.css";
 import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
-import { onMounted } from "@vue/runtime-core";
+import { onMounted, onBeforeUnmount } from "@vue/runtime-core";
 export default {
   setup() {
-    let allMaps: Map[] = [];
+    let map1: Map;
+    let map2: Map;
+    let allMaps: Map[] | undefined = [];
     let view = new View({
       projection: "EPSG:4326",
       center: [108.961029, 34.208386],
       zoom: 12,
     });
     onMounted(() => {
-      let map = new Map({
+      map1 = new Map({
         target: "mapContainer",
         layers: [
           new TileLayer({
@@ -27,7 +29,7 @@ export default {
         ],
         view: view,
       });
-      let map2 = new Map({
+      map2 = new Map({
         target: "mapContainer2",
         layers: [
           new TileLayer({
@@ -36,9 +38,14 @@ export default {
         ],
         view: view,
       });
-      allMaps = [map, map2];
+      allMaps = [map1, map2];
     });
 
+    onBeforeUnmount(() => {
+      map1.dispose();
+      map2.dispose();
+      allMaps = undefined;
+    });
     // let _test_move = true;
     // function togetherMove() {
     //   allMaps[0].on("postrender", function (e) {

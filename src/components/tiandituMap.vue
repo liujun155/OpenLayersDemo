@@ -1,6 +1,8 @@
 <template>
   <div id="mapContainer"></div>
-  <a-button style="margin: 30px 0 0 50px" type="primary" @click="changeMap()">影像/矢量图</a-button>
+  <a-button style="margin: 30px 0 0 50px" type="primary" @click="changeMap()"
+    >影像/矢量图</a-button
+  >
 </template>
 
 <script lang="ts">
@@ -9,10 +11,10 @@ import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
 import "ol/ol.css";
 import { fromLonLat } from "ol/proj.js";
-import { onMounted } from "@vue/runtime-core";
+import { onMounted, onBeforeUnmount } from "@vue/runtime-core";
 export default {
   setup() {
-    let map;
+    let map: Map;
     let wkid = 4326;
     let token = "4487e284e8ec5fb37b266983d265bb39";
 
@@ -22,8 +24,8 @@ export default {
         url: getLayerUrlByData("image", wkid, token),
         projection: "EPSG:" + wkid,
         wrapX: true,
-        crossOrigin: "anonymous"
-      })
+        crossOrigin: "anonymous",
+      }),
     });
     //天地图影像注记
     let layerTianDiImgLabel = new TileLayer({
@@ -31,8 +33,8 @@ export default {
         url: getLayerUrlByData("label", wkid, token),
         projection: "EPSG:" + wkid,
         wrapX: true,
-        crossOrigin: "anonymous"
-      })
+        crossOrigin: "anonymous",
+      }),
     });
 
     //创建天地图矢量底图
@@ -41,8 +43,8 @@ export default {
         url: getLayerUrlByData("street", wkid, token),
         projection: "EPSG:" + wkid,
         wrapX: true,
-        crossOrigin: "anonymous"
-      })
+        crossOrigin: "anonymous",
+      }),
     });
     //天地图矢量注记
     let layerTianDiLabel = new TileLayer({
@@ -50,8 +52,8 @@ export default {
         url: getLayerUrlByData("street_label", wkid, token),
         projection: "EPSG:" + wkid,
         wrapX: true,
-        crossOrigin: "anonymous"
-      })
+        crossOrigin: "anonymous",
+      }),
     });
     onMounted(() => {
       //初始化地图
@@ -69,21 +71,20 @@ export default {
       // map.addLayer(layerTianDiImgLabel);
     });
 
-    let curMapType = 'vec';
-    function changeMap(){
-      if(curMapType == 'vec'){
+    let curMapType = "vec";
+    function changeMap() {
+      if (curMapType == "vec") {
         map.removeLayer(layerTianDi);
         map.removeLayer(layerTianDiLabel);
         map.addLayer(layerTianDiImg);
         map.addLayer(layerTianDiImgLabel);
-        curMapType = 'img';
-      }
-      else if(curMapType == 'img'){
+        curMapType = "img";
+      } else if (curMapType == "img") {
         map.removeLayer(layerTianDiImg);
         map.removeLayer(layerTianDiImgLabel);
         map.addLayer(layerTianDi);
         map.addLayer(layerTianDiLabel);
-        curMapType='vec';
+        curMapType = "vec";
       }
     }
 
@@ -123,9 +124,12 @@ export default {
         token
       );
     }
-    return{
-      changeMap
-    }
+    onBeforeUnmount(() => {
+      map.dispose();
+    });
+    return {
+      changeMap,
+    };
   },
 };
 </script>
