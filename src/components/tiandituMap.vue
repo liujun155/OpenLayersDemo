@@ -16,7 +16,7 @@ export default {
   setup() {
     let map: Map;
     let wkid = 4326;
-    let token = "f3ff25c830f9dc000c30a22e17e889f4";
+    let token = "******您的密钥******";
 
     //创建天地图影像底图
     let layerTianDiImg = new TileLayer({
