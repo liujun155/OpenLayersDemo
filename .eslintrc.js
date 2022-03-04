@@ -20,5 +20,7 @@ module.exports = {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/no-explicit-any": ["off"], //关闭any类型警告
   },
 };

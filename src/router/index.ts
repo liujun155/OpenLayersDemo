@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import MultiMap from "../components/multiMap.vue";
 import TiandiMap from "../components/tiandituMap.vue";
 import GeoserverMap from "../components/geoserverMap.vue";
+import TiffMap from "../components/tiffMap.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -35,6 +36,14 @@ const routes: Array<RouteRecordRaw> = [
     component: GeoserverMap,
     meta: {
       title: "Geoserver WMS服务",
+    },
+  },
+  {
+    path: "/tiffmap",
+    name: "TiffMap",
+    component: TiffMap,
+    meta: {
+      title: "影像图",
     },
   },
 ];

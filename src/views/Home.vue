@@ -7,7 +7,10 @@
       >天地图
     </a-button>
     <a-button type="primary" class="btn-Center" @click="start('/wmsmap')"
-      >WFS属性查询
+      >WFS属性查询/要素搜索
+    </a-button>
+    <a-button type="primary" class="btn-Center" @click="start('/tiffmap')"
+      >GeoTIFF
     </a-button>
   </div>
 </template>

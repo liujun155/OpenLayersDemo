@@ -7,6 +7,15 @@
     </div>
     <div id="popup-content" class="popup-content"></div>
   </div>
+  <div>
+    <a-input-search
+      class="inputSearch"
+      v-model:value="searchText"
+      placeholder="搜索要素"
+      enter-button
+      @search="onSearch"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -14,7 +23,7 @@ import { message } from "ant-design-vue";
 import { Map, View, Feature } from "ol";
 import VectorSource from "ol/source/Vector";
 import { Vector as VectorLayer } from "ol/layer";
-import { Polygon } from "ol/geom";
+import { Geometry, Polygon } from "ol/geom";
 import GeoJSON from "ol/format/GeoJSON";
 import { bbox as bboxStrategy } from "ol/loadingstrategy";
 import TileLayer from "ol/layer/Tile";
@@ -22,16 +31,18 @@ import TileWMS from "ol/source/TileWMS";
 import { click } from "ol/events/condition";
 import Overlay from "ol/Overlay";
 import { Select } from "ol/interaction";
+import { getCenter } from "ol/extent";
 import { Fill, Stroke, Style } from "ol/style";
 import "ol/ol.css";
-import { onMounted, onBeforeUnmount } from "vue";
-import axios from "axios";
+import { onMounted, onBeforeUnmount, ref } from "vue";
+import { flyTo } from "../utils/mapUtil";
 
 export default {
   name: "geoserverMap",
   setup() {
     let map: Map;
     let wkid = 4326;
+    let searchText = ref("");
     let cur_selectFeature; //当前选择要素
     let cur_overlay: Overlay;
     let popup_container: HTMLElement;
@@ -58,6 +69,7 @@ export default {
           zoom: 12,
         }),
       });
+      wmsLayer.set("name", "底图");
       map.addLayer(wmsLayer);
 
       //Overlay
@@ -84,6 +96,7 @@ export default {
           }),
         }),
       });
+      vecLayer.set("name", "要素图层");
       map.addLayer(vecLayer);
       //属性弹框关闭按钮事件
       popup_closer.onclick = function () {
@@ -168,9 +181,64 @@ export default {
       map.addInteraction(layer_select);
     });
 
+    //上一次搜索到的要素
+    let lastSearchFeature: Feature<Geometry>;
+    //搜索要素方法
+    function onSearch() {
+      if (searchText.value == "") {
+        if (lastSearchFeature != undefined)
+          lastSearchFeature.setStyle(undefined);
+        message.warn("请输入搜索条件");
+        return;
+      }
+      let vecLayer;
+      map.getLayers().forEach((layer, i) => {
+        vecLayer = layer.get("name") == "要素图层" ? layer : undefined;
+      });
+      if (vecLayer == undefined) return;
+
+      const selectStyle = new Style({
+        fill: new Fill({
+          color: "#FFFF0080",
+        }),
+        stroke: new Stroke({
+          color: "#FFFF0080",
+          width: 2,
+        }),
+      });
+      let features = vecLayer.getSource().getFeatures();
+      let hasRes = false; //是否找到结果
+      for (let i = 0; i < features.length; i++) {
+        const f = features[i];
+        if (f.getProperties().name.indexOf(searchText.value) != -1) {
+          //清空上一次筛选要素的样式
+          if (lastSearchFeature != undefined)
+            lastSearchFeature.setStyle(undefined);
+          lastSearchFeature = f;
+          //设置样式-高亮
+          f.setStyle(selectStyle);
+          let extent;
+          let geo = f.getGeometry();
+          if (geo != undefined) extent = geo.getExtent();
+          //   map.getView().fit(extent);
+          //飞到要素中心点位置
+          flyTo(map, getCenter(extent), 14, () => {
+            //do nothing.
+          });
+          hasRes = true;
+          break;
+        }
+      }
+      if (!hasRes) message.info("未找到要素");
+    }
+
     onBeforeUnmount(() => {
       map.dispose();
     });
+    return {
+      searchText,
+      onSearch,
+    };
   },
 };
 </script>
@@ -182,6 +250,10 @@ export default {
   left: 0;
   bottom: 0;
   position: absolute;
+}
+.inputSearch {
+  width: 260px;
+  margin: 10px 0 0 40px;
 }
 .ol-popup {
   position: absolute;
