@@ -1,5 +1,6 @@
 <template>
   <div id="mapContainer"></div>
+  <div id="mouse-position"></div>
 </template>
 
 <script lang="ts">
@@ -12,10 +13,20 @@ import TileWMS from "ol/source/TileWMS";
 import { Fill, Stroke, Style } from "ol/style";
 import GeoJSON from "ol/format/GeoJSON";
 import { bbox as bboxStrategy } from "ol/loadingstrategy";
+import { createStringXY } from "ol/coordinate";
+import MousePosition from "ol/control/MousePosition";
+import { defaults as defaultControls } from "ol/control";
 export default {
   setup() {
     let map: Map;
     onMounted(() => {
+      const mousePositionControl = new MousePosition({
+        coordinateFormat: createStringXY(4),
+        projection: "EPSG:4326",
+        className: "custom-mouse-position",
+        target: document.getElementById("mouse-position") as HTMLElement,
+      });
+
       let wmsLayer = new TileLayer({
         source: new TileWMS({
           url: "http://localhost:8080/geoserver/demo_building/wms",
@@ -25,6 +36,7 @@ export default {
         }),
       });
       map = new Map({
+        controls: defaultControls().extend([mousePositionControl]),
         target: "mapContainer",
         view: new View({
           projection: "EPSG:4326",
@@ -62,6 +74,11 @@ export default {
   width: 100%;
   height: 100%;
   left: 0;
+  bottom: 0;
+  position: absolute;
+}
+#mouse-position {
+  left: 15px;
   bottom: 0;
   position: absolute;
 }

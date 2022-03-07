@@ -140,7 +140,7 @@ export default {
           `<p title='名称：${prop["name"]}' style='width: 11vw;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;float: left;'>名称：${prop["name"]}</p>`;
         cur_overlay.setPosition(e.coordinate);
       });
-      //鼠标移动事件
+      //鼠标移动事件(移动到要素上时鼠标指针改变)
       map.on("pointermove", function (e) {
         var pixel = map.getEventPixel(e.originalEvent);
         var feature = map.forEachFeatureAtPixel(pixel, function (feature) {
