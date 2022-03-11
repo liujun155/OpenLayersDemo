@@ -4,6 +4,7 @@ import MultiMap from "../components/multiMap.vue";
 import TiandiMap from "../components/tiandituMap.vue";
 import GeoserverMap from "../components/geoserverMap.vue";
 import TiffMap from "../components/tiffMap.vue";
+import BufferAnalysis from "../components/bufferAnalysis.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -44,6 +45,14 @@ const routes: Array<RouteRecordRaw> = [
     component: TiffMap,
     meta: {
       title: "影像图",
+    },
+  },
+  {
+    path: "/bufferAnalysis",
+    name: "BufferAnalysis",
+    component: BufferAnalysis,
+    meta: {
+      title: "缓冲区分析",
     },
   },
 ];

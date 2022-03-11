@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import Antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
+import "ol/ol.css";
 import Axios from "axios";
 
 const app = createApp(App);

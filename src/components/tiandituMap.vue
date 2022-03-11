@@ -9,7 +9,6 @@
 import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
-import "ol/ol.css";
 import { fromLonLat } from "ol/proj.js";
 import { onMounted, onBeforeUnmount } from "@vue/runtime-core";
 export default {

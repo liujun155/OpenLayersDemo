@@ -33,7 +33,6 @@ import Overlay from "ol/Overlay";
 import { Select } from "ol/interaction";
 import { getCenter } from "ol/extent";
 import { Fill, Stroke, Style } from "ol/style";
-import "ol/ol.css";
 import { onMounted, onBeforeUnmount, ref } from "vue";
 import { flyTo } from "../utils/mapUtil";
 
@@ -142,8 +141,8 @@ export default {
       });
       //鼠标移动事件(移动到要素上时鼠标指针改变)
       map.on("pointermove", function (e) {
-        var pixel = map.getEventPixel(e.originalEvent);
-        var feature = map.forEachFeatureAtPixel(pixel, function (feature) {
+        let pixel = map.getEventPixel(e.originalEvent);
+        let feature = map.forEachFeatureAtPixel(pixel, function (feature) {
           return feature;
         });
         map.getTargetElement().style.cursor =

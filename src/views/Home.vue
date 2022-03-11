@@ -12,6 +12,12 @@
     <a-button type="primary" class="btn-Center" @click="start('/tiffmap')"
       >GeoTIFF
     </a-button>
+    <a-button
+      type="primary"
+      class="btn-Center"
+      @click="start('/bufferAnalysis')"
+      >缓冲区分析
+    </a-button>
   </div>
 </template>
 <script lang="ts">
