@@ -1,4 +1,5 @@
 import { Map } from "ol";
+import BaseLayer from "ol/layer/Base";
 /**
  * @description 飞行到某点位
  * @author LiuJun
@@ -47,4 +48,28 @@ export function flyTo(map: Map, location: number[], zoomLevel: number, done) {
     },
     callback
   );
+}
+
+/**
+ * 根据图层名称查找图层
+ * @param map 地图
+ * @param layerName 图层名称
+ * @returns 图层
+ */
+export function getLayerByName(
+  map: Map,
+  layerName: string
+): BaseLayer | undefined {
+  if (layerName == "") return undefined;
+  let layer;
+  const layers = map.getLayers().getArray();
+  if (layers != undefined && layers.length > 0) {
+    for (let i = 0; i < layers.length; i++) {
+      if (layers[i].get("name") == layerName) {
+        layer = layers[i];
+        break;
+      }
+    }
+  }
+  return layer;
 }
